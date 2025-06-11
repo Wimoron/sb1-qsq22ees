@@ -45,8 +45,8 @@ export const EditableText: React.FC<EditableTextProps> = ({
   }
 
   const baseClasses = `${className} ${
-    isFocused ? 'ring-2 ring-emerald-500 ring-opacity-50' : ''
-  } bg-transparent border-2 border-dashed border-emerald-500/30 hover:border-emerald-500/50 focus:border-emerald-500 transition-all duration-200 rounded px-2 py-1`;
+    isFocused ? 'ring-2 ring-emerald-500 ring-opacity-50 scale-105' : ''
+  } bg-transparent border-2 border-dashed border-emerald-500/30 hover:border-emerald-500/50 focus:border-emerald-500 transition-all duration-300 rounded px-2 py-1 hover:scale-105`;
 
   if (multiline) {
     return (
