@@ -1,18 +1,4 @@
-import { 
-  DollarSign, 
-  Leaf, 
-  Shield, 
-  Laptop,
-  Star,
-  Check,
-  Mail,
-  Phone,
-  MapPin,
-  ChevronRight,
-  Menu,
-  X,
-  LucideIcon
-} from 'lucide-react';
+import { DollarSign, Leaf, Shield, Laptop, Star, Check, Mail, Phone, MapPin, ChevronRight, Menu, X, DivideIcon as LucideIcon } from 'lucide-react';
 
 export const iconMap: Record<string, LucideIcon> = {
   DollarSign,
