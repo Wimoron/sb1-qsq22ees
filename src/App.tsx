@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Laptop, Shield, Leaf, DollarSign, Star, Check, Mail, Phone, MapPin, ChevronRight, Menu, X } from 'lucide-react';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [email, setEmail] = useState('');
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,51 +25,101 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-800">
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-gray-900/95 backdrop-blur-xl border-b border-gray-700/50 shadow-2xl' 
+          : 'bg-transparent'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <Laptop className="h-8 w-8 text-emerald-400" />
-              <span className="text-xl font-bold text-white">RenoBook</span>
+          <div className="flex justify-between items-center h-20">
+            {/* Logo */}
+            <div className="flex items-center space-x-3 group cursor-pointer">
+              <div className="relative">
+                <div className="absolute inset-0 bg-emerald-400 rounded-xl blur-sm opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                <div className="relative bg-gradient-to-br from-emerald-400 to-emerald-500 p-2 rounded-xl">
+                  <Laptop className="h-7 w-7 text-white" />
+                </div>
+              </div>
+              <div>
+                <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  RenoBook
+                </span>
+                <div className="text-xs text-emerald-400 font-medium tracking-wider">
+                  PREMIUM REFURBISHED
+                </div>
+              </div>
             </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#laptops" className="text-gray-300 hover:text-white transition-colors">Laptops</a>
-              <a href="#about" className="text-gray-300 hover:text-white transition-colors">About</a>
-              <a href="#contact" className="text-gray-300 hover:text-white transition-colors">Contact</a>
-              <button className="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition-colors">
-                Shop Now
-              </button>
+            <div className="hidden md:flex items-center space-x-1">
+              <a href="#laptops" className="relative px-4 py-2 text-gray-300 hover:text-white transition-all duration-200 group">
+                <span className="relative z-10">Laptops</span>
+                <div className="absolute inset-0 bg-white/5 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-200"></div>
+              </a>
+              <a href="#about" className="relative px-4 py-2 text-gray-300 hover:text-white transition-all duration-200 group">
+                <span className="relative z-10">About</span>
+                <div className="absolute inset-0 bg-white/5 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-200"></div>
+              </a>
+              <a href="#contact" className="relative px-4 py-2 text-gray-300 hover:text-white transition-all duration-200 group">
+                <span className="relative z-10">Contact</span>
+                <div className="absolute inset-0 bg-white/5 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-200"></div>
+              </a>
+              
+              {/* CTA Button */}
+              <div className="ml-6">
+                <button className="relative group overflow-hidden bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-2.5 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 hover:scale-105">
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative flex items-center space-x-2">
+                    <span>Shop Now</span>
+                    <ChevronRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform duration-200" />
+                  </span>
+                </button>
+              </div>
             </div>
 
             {/* Mobile menu button */}
             <button
-              className="md:hidden text-white"
+              className="md:hidden relative p-2 text-white hover:bg-white/10 rounded-lg transition-colors duration-200"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              <div className="relative w-6 h-6">
+                <span className={`absolute inset-0 transition-all duration-300 ${isMenuOpen ? 'rotate-45 opacity-0' : 'rotate-0 opacity-100'}`}>
+                  <Menu className="h-6 w-6" />
+                </span>
+                <span className={`absolute inset-0 transition-all duration-300 ${isMenuOpen ? 'rotate-0 opacity-100' : '-rotate-45 opacity-0'}`}>
+                  <X className="h-6 w-6" />
+                </span>
+              </div>
             </button>
           </div>
 
           {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="md:hidden bg-gray-900 border-t border-gray-800">
-              <div className="px-2 pt-2 pb-3 space-y-1">
-                <a href="#laptops" className="block px-3 py-2 text-gray-300">Laptops</a>
-                <a href="#about" className="block px-3 py-2 text-gray-300">About</a>
-                <a href="#contact" className="block px-3 py-2 text-gray-300">Contact</a>
-                <button className="w-full text-left bg-emerald-500 text-white px-3 py-2 rounded-lg mt-2">
-                  Shop Now
+          <div className={`md:hidden overflow-hidden transition-all duration-300 ${
+            isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          }`}>
+            <div className="bg-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl mx-4 mb-4 p-6">
+              <div className="space-y-4">
+                <a href="#laptops" className="block text-gray-300 hover:text-white transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-white/5">
+                  Laptops
+                </a>
+                <a href="#about" className="block text-gray-300 hover:text-white transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-white/5">
+                  About
+                </a>
+                <a href="#contact" className="block text-gray-300 hover:text-white transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-white/5">
+                  Contact
+                </a>
+                <button className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white py-3 px-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300 flex items-center justify-center space-x-2">
+                  <span>Shop Now</span>
+                  <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <section className="pt-32 pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
